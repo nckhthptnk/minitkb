@@ -1,949 +1,205 @@
 <!doctype html>
-<html lang="vi">
+<html lang="vi" class="h-full">
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thời gian biểu mini</title>
-  <script src="/_sdk/element_sdk.js"></script>
+  <title>Phần mềm thời gian biểu mini</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    }
-    
-    html, body {
-      height: 100%;
-      overflow-x: hidden;
-      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
-      min-height: 100%;
-    }
-    
-    .page {
-      min-height: 100%;
-      display: none;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    
-    .page.active {
-      display: block;
-      opacity: 1;
-    }
-    
-    .gradient-bg {
-      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
-    }
-    
-    .card {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-    }
-    
-    .feature-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      margin-bottom: 16px;
-    }
-    
-    .nav-button {
-      padding: 12px 24px;
-      border-radius: 8px;
-      font-weight: 600;
-      transition: all 0.2s;
-      cursor: pointer;
-      border: none;
-      font-size: 16px;
-    }
-    
-    .nav-button:hover {
-      transform: translateY(-2px);
-    }
-    
-    .section-title {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 24px;
-      color: #1a202c;
-    }
-    
-    .subsection-title {
-      font-size: 20px;
-      font-weight: 600;
-      margin-top: 24px;
-      margin-bottom: 12px;
-      color: #2d3748;
-    }
-    
-    .bullet-list {
-      list-style: none;
-      padding-left: 0;
-    }
-    
-    .bullet-list li {
-      padding-left: 28px;
-      position: relative;
-      margin-bottom: 12px;
-      line-height: 1.6;
-    }
-    
-    .bullet-list li:before {
-      content: "•";
-      position: absolute;
-      left: 8px;
-      font-weight: bold;
-      font-size: 20px;
-    }
-    
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-      }
-      40% {
-        transform: translateY(-10px);
-      }
-      60% {
-        transform: translateY(-5px);
-      }
-    }
-    
-    a:hover {
-      opacity: 0.8;
-    }
-    
-    .tool-card:hover {
-      transform: translateY(-4px);
-    }
-  </style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #fef7ff 0%, #f0f9ff 50%, #f7fee7 100%);
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .icon-bounce {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
  </head>
- <body><!-- Navigation -->
-  <nav class="gradient-bg" style="padding: 16px 24px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-   <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 16px;">
-    <div style="display: flex; gap: 12px; flex-wrap: wrap;"><button class="nav-button" id="btn-home" style="background: white; color: #8b0000;">Trang chủ</button> <button class="nav-button" id="btn-intro" style="background: white; color: #8b0000;">Giới thiệu</button> <button class="nav-button" id="btn-method" style="background: white; color: #8b0000;">Phương pháp</button> <button class="nav-button" id="btn-data" style="background: white; color: #8b0000;">Số liệu</button> <button class="nav-button" id="btn-images" style="background: white; color: #8b0000;">Hình ảnh</button> <button class="nav-button" id="btn-feedback" style="background: white; color: #8b0000;">Feedback</button>
+ <body class="h-full gradient-bg font-sans">
+  <div class="min-h-full"><!-- Header -->
+   <header class="bg-white/70 backdrop-blur-md shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="flex justify-between items-center py-4">
+      <div class="flex items-center space-x-3">
+       <div class="w-10 h-10 bg-gradient-to-br from-purple-200 to-pink-200 rounded-xl flex items-center justify-center"><span class="text-2xl">📅</span>
+       </div>
+       <h1 class="text-xl font-bold text-gray-800">Thời gian biểu mini</h1>
+      </div>
+      <nav class="hidden md:flex space-x-6"><a href="#features" class="text-gray-600 hover:text-purple-600 transition-colors">Tính năng</a> <a href="#about" class="text-gray-600 hover:text-purple-600 transition-colors">Về chúng tôi</a>
+      </nav>
+     </div>
     </div>
-   </div>
-  </nav><!-- Page 1: Home -->
-  <div id="page-home" class="page active">
-   <div style="padding: 80px 24px; text-align: center;">
-    <div style="max-width: 800px; margin: 0 auto;">
-     <h1 id="home-title" style="color: #8b0000; font-size: 48px; font-weight: 900; margin-bottom: 16px; line-height: 1.2; text-shadow: 2px 2px 4px rgba(255,255,255,0.8); text-transform: uppercase; letter-spacing: 1px;">Thời gian biểu mini</h1>
-     <p id="home-subtitle" style="color: #4a0e0e; font-size: 20px; margin-bottom: 32px;">Giải pháp quản lý thời khóa biểu thông minh dành cho học sinh</p>
-    </div>
-   </div>
-   <div style="max-width: 1400px; margin: 0 auto; padding: 0 32px 48px 32px;"><!-- Decorative Divider -->
-    <div style="text-align: center; padding: 60px 24px;">
-     <div style="max-width: 600px; margin: 0 auto; position: relative;">
-      <div style="height: 2px; background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 20%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.6) 80%, transparent 100%); margin: 20px 0;"></div>
-      <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.9); padding: 12px 24px; border-radius: 50px; backdrop-filter: blur(10px); box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-       <div style="display: flex; align-items: center; justify-content: center;"><span style="font-size: 16px; font-weight: 600; color: #8b0000;">Just be yourself</span>
+   </header><!-- Hero Section -->
+   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="text-center mb-16">
+     <div class="mb-6"><span class="text-6xl icon-bounce inline-block">📚</span>
+     </div>
+     <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 leading-tight">PHẦN MỀM THỜI GIAN BIỂU MINI</h2>
+     <p class="text-xl text-gray-600 max-w-2xl mx-auto mb-8">Quản lý thời gian học tập hiệu quả với giao diện thân thiện và các tính năng thông minh</p><button class="bg-gradient-to-r from-purple-300 to-pink-300 hover:from-purple-400 hover:to-pink-400 text-white px-8 py-3 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"> Bắt đầu sử dụng </button>
+    </div><!-- Features Section -->
+    <section id="features" class="mb-20">
+     <h3 class="text-3xl font-bold text-center text-gray-800 mb-12">Tính năng chính</h3>
+     <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-6"><!-- Thời khóa biểu chính khóa -->
+      <div class="feature-card bg-white/60 p-6 rounded-2xl border border-purple-100 hover:border-purple-200 cursor-pointer flex flex-col" data-link="https://tkbnkhoahung.github.io/tkbnk2526hs/">
+       <div class="w-12 h-12 bg-gradient-to-br from-blue-200 to-blue-300 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">📋</span>
+       </div>
+       <h4 class="text-lg font-semibold text-gray-800 mb-3">Thời khóa biểu chính khóa</h4>
+       <p class="text-gray-600 text-sm flex-grow">Quản lý lịch học hàng tuần một cách trực quan và dễ dàng</p>
+       <div class="mt-4 text-center"><span class="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">Nhấn để truy cập</span>
+       </div>
+      </div><!-- Lịch thi -->
+      <div class="feature-card bg-white/60 p-6 rounded-2xl border border-pink-100 hover:border-pink-200 cursor-pointer flex flex-col" data-link="https://tkbnkhoahung.github.io/lichkiemtra/">
+       <div class="w-12 h-12 bg-gradient-to-br from-pink-200 to-pink-300 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">📝</span>
+       </div>
+       <h4 class="text-lg font-semibold text-gray-800 mb-3">Lịch thi</h4>
+       <p class="text-gray-600 text-sm flex-grow">Theo dõi lịch kiểm tra và thi cử, không bao giờ bỏ lỡ</p>
+       <div class="mt-4 text-center"><span class="inline-block bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-xs font-medium">Nhấn để truy cập</span>
+       </div>
+      </div><!-- To-do list -->
+      <div class="feature-card bg-white/60 p-6 rounded-2xl border border-green-100 hover:border-green-200 cursor-pointer flex flex-col" data-link="https://nckhthptnk.github.io/To-do-list/">
+       <div class="w-12 h-12 bg-gradient-to-br from-green-200 to-green-300 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">✅</span>
+       </div>
+       <h4 class="text-lg font-semibold text-gray-800 mb-3">To-do list</h4>
+       <p class="text-gray-600 text-sm flex-grow">Danh sách công việc thông minh giúp bạn hoàn thành mọi nhiệm vụ</p>
+       <div class="mt-4 text-center"><span class="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">Nhấn để truy cập</span>
+       </div>
+      </div><!-- Lịch trình cá nhân -->
+      <div class="feature-card bg-white/60 p-6 rounded-2xl border border-yellow-100 hover:border-yellow-200 cursor-pointer flex flex-col" data-link="https://nckhthptnk.github.io/LichTrinhCaNhan/">
+       <div class="w-12 h-12 bg-gradient-to-br from-yellow-200 to-yellow-300 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🗓️</span>
+       </div>
+       <h4 class="text-lg font-semibold text-gray-800 mb-3">Lịch trình cá nhân</h4>
+       <p class="text-gray-600 text-sm flex-grow">Tùy chỉnh lịch trình riêng phù hợp với nhu cầu cá nhân</p>
+       <div class="mt-4 text-center"><span class="inline-block bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-medium">Nhấn để truy cập</span>
+       </div>
+      </div><!-- Lịch kiểm tra tại lớp -->
+      <div class="feature-card bg-white/60 p-6 rounded-2xl border border-purple-100 hover:border-purple-200 cursor-pointer flex flex-col" data-link="https://nckhthptnk.github.io/Lich-thi-tai-lop/">
+       <div class="w-12 h-12 bg-gradient-to-br from-purple-200 to-purple-300 rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">📊</span>
+       </div>
+       <h4 class="text-lg font-semibold text-gray-800 mb-3">Lịch kiểm tra tại lớp</h4>
+       <p class="text-gray-600 text-sm flex-grow">Theo dõi lịch kiểm tra và bài tập tại lớp một cách chi tiết</p>
+       <div class="mt-4 text-center"><span class="inline-block bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-medium">Nhấn để truy cập</span>
        </div>
       </div>
      </div>
-    </div><!-- Features Section with cute icons -->
-    <div style="margin-bottom: 80px;">
-     <h2 class="section-title" style="text-align: center; margin-bottom: 48px;">✨ Tính năng nổi bật ✨</h2>
-     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-bottom: 48px; max-width: 1400px; margin-left: auto; margin-right: auto;"><!-- Feature 1 -->
-      <div class="card" style="padding: 24px; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center;">
-       <div style="font-size: 48px; margin-bottom: 16px;">
-        📱
-       </div>
-       <h3 style="font-size: 20px; font-weight: 700; color: #1a202c; margin-bottom: 12px;">Tra cứu nhanh</h3>
-       <p style="color: #718096; line-height: 1.6;">Xem thời khóa biểu mọi lúc mọi nơi, chỉ cần một cú click!</p>
-      </div><!-- Feature 2 -->
-      <div class="card" style="padding: 24px; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center;">
-       <div style="font-size: 48px; margin-bottom: 16px;">
-        🎨
-       </div>
-       <h3 style="font-size: 20px; font-weight: 700; color: #1a202c; margin-bottom: 12px;">Cá nhân hóa</h3>
-       <p style="color: #718096; line-height: 1.6;">Tùy chỉnh giao diện theo sở thích riêng của bạn!</p>
-      </div><!-- Feature 3 -->
-      <div class="card" style="padding: 24px; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center;">
-       <div style="font-size: 48px; margin-bottom: 16px;">
-        📸
-       </div>
-       <h3 style="font-size: 20px; font-weight: 700; color: #1a202c; margin-bottom: 12px;">Xuất ảnh</h3>
-       <p style="color: #718096; line-height: 1.6;">Lưu thời khóa biểu thành hình nền điện thoại siêu tiện lợi!</p>
-      </div><!-- Feature 4 -->
-      <div class="card" style="padding: 24px; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center;">
-       <div style="font-size: 48px; margin-bottom: 16px;">
-        ⏰
-       </div>
-       <h3 style="font-size: 20px; font-weight: 700; color: #1a202c; margin-bottom: 12px;">Quản lý thời gian</h3>
-       <p style="color: #718096; line-height: 1.6;">Phân bổ thời gian học tập hợp lý, cải thiện hiệu quả học tập!</p>
-      </div><!-- Feature 5 -->
-      <div class="card" style="padding: 24px; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center;">
-       <div style="font-size: 48px; margin-bottom: 16px;">
-        🔄
-       </div>
-       <h3 style="font-size: 20px; font-weight: 700; color: #1a202c; margin-bottom: 12px;">Đồng bộ toàn trường</h3>
-       <p style="color: #718096; line-height: 1.6;">Cập nhật thời khóa biểu chung toàn trường theo thời gian thực, đảm bảo thông tin luôn chính xác!</p>
-      </div><!-- Feature 6 -->
-      <div class="card" style="padding: 24px; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center;">
-       <div style="font-size: 48px; margin-bottom: 16px;">
-        🔒
-       </div>
-       <h3 style="font-size: 20px; font-weight: 700; color: #1a202c; margin-bottom: 12px;">Quyền riêng tư</h3>
-       <p style="color: #718096; line-height: 1.6;">Bảo vệ thông tin cá nhân tuyệt đối - lịch của bạn chỉ bạn mới thấy được!</p>
-      </div>
-     </div><!-- Decorative elements -->
-     <div style="text-align: center; margin: 48px 0;">
-      <div style="display: inline-flex; gap: 24px; font-size: 32px; opacity: 0.7;"><span style="animation: bounce 2s infinite;">🌟</span> <span style="animation: bounce 2s infinite 0.2s;">💫</span> <span style="animation: bounce 2s infinite 0.4s;">✨</span> <span style="animation: bounce 2s infinite 0.6s;">🎯</span> <span style="animation: bounce 2s infinite 0.8s;">🚀</span>
-      </div>
+    </section>
+   </main><!-- About Us Section -->
+   <section id="about" class="bg-white/40 backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+     <div class="text-center mb-12">
+      <h3 class="text-3xl font-bold text-gray-800 mb-4">Information about us</h3>
+      <div class="w-20 h-1 bg-gradient-to-r from-purple-300 to-pink-300 mx-auto rounded-full"></div>
      </div>
-    </div><!-- Action Buttons -->
-    <div style="text-align: center; padding: 48px 24px;">
-     <div style="display: flex; flex-direction: column; gap: 16px; align-items: center; max-width: 600px; margin: 0 auto;"><a href="https://nckhthptnk.github.io/minitkb/" target="_blank" rel="noopener noreferrer" class="nav-button" style="background: white; color: #667eea; font-size: 18px; padding: 16px 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-decoration: none; display: inline-block;">Ấn vào đây để trải nghiệm phần mềm cùng chúng mình nhé!</a>
-     </div>
-    </div><!-- About Us Section -->
-    <div style="background: rgba(255, 255, 255, 0.3); padding: 48px 32px; border-radius: 16px; margin: 0 -32px; backdrop-filter: blur(10px);">
-     <div style="max-width: 1000px; margin: 0 auto;">
-      <h2 class="section-title" style="text-align: center; margin-bottom: 48px;">About Us</h2>
-      <div class="card" style="padding: 40px; max-width: 700px; margin: 0 auto;">
-       <div style="text-align: center; margin-bottom: 32px;">
-        <div style="font-size: 48px; margin-bottom: 16px;">
-         🎓
+     <div class="max-w-5xl mx-auto"><!-- Project Info & Team -->
+      <div class="bg-gradient-to-br from-purple-50/80 via-pink-50/80 to-blue-50/80 rounded-2xl p-8 border border-purple-200/50 shadow-lg backdrop-blur-sm">
+       <div class="flex items-center justify-center mb-6">
+        <div class="w-16 h-16 bg-gradient-to-br from-purple-200 to-pink-200 rounded-full flex items-center justify-center"><span class="text-3xl">🏫</span>
         </div>
-        <p style="color: #718096; font-size: 18px; margin-bottom: 8px;">Nhóm nghiên cứu đến từ</p>
-        <h3 id="about-school" style="font-size: 24px; font-weight: 700; color: #1a202c; margin-bottom: 16px;">THPT Nguyễn Khuyến</h3>
-        <p style="color: #4a5568; font-size: 16px; line-height: 1.6; font-style: italic;">"Chúng tôi tận dụng sự tiến bộ của công nghệ để phát triển Phần mềm Thời gian biểu Mini, giúp học sinh sắp xếp kế hoạch học tập linh hoạt, theo dõi tiến độ và quản lý thời gian hiệu quả hơn."</p>
        </div>
-       <div style="border-top: 2px solid #e2e8f0; padding-top: 32px;">
-        <div style="background: #f7fafc; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
-         <p style="color: #718096; font-size: 14px; margin-bottom: 20px; font-weight: 600; text-align: center;">Thành viên thực hiện</p>
-         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;"><!-- Giáo viên hướng dẫn -->
-          <div style="text-align: center;">
-           <p style="color: #718096; font-size: 12px; margin-bottom: 12px; font-weight: 600;">Giáo viên hướng dẫn</p>
-           <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
-            <div style="width: 40px; height: 40px; background: #fef3c7; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">
-             👨‍🏫
-            </div>
-            <p id="about-teacher" style="color: #1a202c; font-size: 16px; font-weight: 600; margin: 0;">Nguyễn Thành Luân</p>
-           </div>
-          </div><!-- Học sinh thực hiện -->
-          <div style="text-align: center;">
-           <p style="color: #718096; font-size: 12px; margin-bottom: 12px; font-weight: 600;">Học sinh thực hiện</p>
-           <div style="display: flex; flex-direction: column; gap: 12px; align-items: center;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-             <div style="width: 32px; height: 32px; background: #dbeafe; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px;">
-              👩‍🎓
-             </div>
-             <p id="about-student1" style="color: #1a202c; font-size: 14px; margin: 0;">Trịnh Thị Ngọc Linh</p>
-            </div>
-            <div style="display: flex; align-items: center; gap: 8px;">
-             <div style="width: 32px; height: 32px; background: #fce7f3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px;">
-              👩‍🎓
-             </div>
-             <p id="about-student2" style="color: #1a202c; font-size: 14px; margin: 0;">Nguyễn Thị Thảo Yến</p>
-            </div>
-           </div>
-          </div>
+       <p class="text-lg text-gray-700 text-center leading-relaxed mb-6">Phần mềm do nhóm nghiên cứu trường THPT Nguyễn Khuyến phát triển, nhằm hỗ trợ học sinh quản lý thời gian học tập một cách hiệu quả và khoa học.</p>
+       <p class="text-gray-600 text-center mb-10">Chúng tôi tin rằng việc quản lý thời gian tốt sẽ giúp các bạn học sinh đạt được kết quả học tập tốt nhất và phát triển toàn diện.</p>
+       <h4 class="text-xl font-bold text-gray-800 text-center mb-8">Đội ngũ phát triển</h4>
+       <div class="grid md:grid-cols-3 gap-6"><!-- Supervisor -->
+        <div class="text-center">
+         <div class="w-16 h-16 bg-gradient-to-br from-amber-200 to-orange-200 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-2xl">👨‍🏫</span>
          </div>
-        </div><!-- Mission & Vision -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
-         <div style="background: #e6fffa; color: #2d3748; padding: 20px; border-radius: 12px; text-align: center;">
-          <div style="font-size: 24px; margin-bottom: 8px;">
-           🎯
-          </div>
-          <h4 style="font-size: 16px; font-weight: 600; margin: 0 0 8px 0;">Sứ mệnh</h4>
-          <p style="font-size: 14px; margin: 0;">Mang lại trải nghiệm học tập hiệu quả và thú vị</p>
+         <h5 class="text-lg font-semibold text-gray-800 mb-2">Nguyễn Thành Luân</h5>
+         <p class="text-amber-600 font-medium text-sm">Người hướng dẫn</p>
+        </div><!-- Team Member 1 -->
+        <div class="text-center">
+         <div class="w-16 h-16 bg-gradient-to-br from-blue-200 to-purple-200 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-2xl">👩‍💻</span>
          </div>
-         <div style="background: #e6fffa; color: #2d3748; padding: 20px; border-radius: 12px; text-align: center;">
-          <div style="font-size: 24px; margin-bottom: 8px;">
-           🚀
-          </div>
-          <h4 style="font-size: 16px; font-weight: 600; margin: 0 0 8px 0;">Tầm nhìn</h4>
-          <p style="font-size: 14px; margin: 0;">Trở thành công cụ hỗ trợ học tập giúp nâng cao hiệu quả học tập</p>
+         <h5 class="text-lg font-semibold text-gray-800 mb-2">Trịnh Thị Ngọc Linh</h5>
+         <p class="text-gray-600 text-sm">Thành viên phát triển</p>
+        </div><!-- Team Member 2 -->
+        <div class="text-center">
+         <div class="w-16 h-16 bg-gradient-to-br from-pink-200 to-purple-200 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-2xl">👩‍💻</span>
          </div>
-        </div><!-- Contact Info -->
-        <div style="background: #e6fffa; border-radius: 12px; padding: 20px; text-align: center;">
-         <div style="font-size: 24px; margin-bottom: 12px;">
-          📧
-         </div>
-         <p style="color: #2d3748; font-size: 14px; margin: 0; font-weight: 500;">Liên hệ với chúng tôi để được hỗ trợ hoặc đóng góp ý kiến</p>
-        </div><!-- Copyright -->
-        <div style="text-align: center; margin-top: 24px; padding: 16px; border-top: 1px solid #e2e8f0;">
-         <p style="color: #718096; font-size: 12px; margin: 0; line-height: 1.5;">© 2025 Trường THPT Nguyễn Khuyến. Phát triển bởi nhóm nghiên cứu học sinh.</p>
+         <h5 class="text-lg font-semibold text-gray-800 mb-2">Nguyễn Thị Thảo Yến</h5>
+         <p class="text-gray-600 text-sm">Thành viên phát triển</p>
         </div>
        </div>
       </div>
      </div>
     </div>
-   </div>
-  </div><!-- Page 2: Introduction -->
-  <div id="page-intro" class="page">
-   <div style="max-width: 900px; margin: 0 auto; padding: 64px 24px;">
-    <h2 class="section-title">Giới thiệu dự án</h2><!-- Mở đầu -->
-    <div class="card" style="padding: 40px; margin-bottom: 32px;">
-     <h3 style="font-size: 24px; font-weight: 700; color: #667eea; margin-bottom: 24px;">Mở đầu</h3>
-     <div style="margin-bottom: 32px;">
-      <h4 class="subsection-title">1. Tính mới</h4>
-      <ul class="bullet-list" style="color: #4a5568;">
-       <li>Cá nhân hóa thời khóa biểu theo sở thích/lối sống, hướng tới tự học và quản trị thời gian.</li>
-       <li>Xuất lịch thành ảnh để làm hình nền/in ấn, giúp xem nhanh ngay cả khi không mở app.</li>
-       <li>Trải nghiệm tra cứu tức thì, phù hợp thói quen dùng điện thoại/máy tính.</li>
-      </ul>
-     </div>
-     <div style="margin-bottom: 32px;">
-      <h4 class="subsection-title">2. Tính cộng đồng</h4>
-      <ul class="bullet-list" style="color: #4a5568;">
-       <li>Mã nguồn dùng chung tạo "nguồn lịch thống nhất" cho toàn trường; cập nhật thay đổi theo thời gian thực.</li>
-       <li>Nâng văn hóa đúng giờ, giảm gián đoạn, hỗ trợ thông báo lịch kiểm tra/thi; dữ liệu tập trung cho BGH–GV–HS theo dõi.</li>
-       <li>Riêng tư mặc định: lịch cá nhân chỉ người nhập thấy; không hiển thị giờ dạy của giáo viên; dễ chia sẻ/tuỳ biến cho đơn vị khác.</li>
-      </ul>
-     </div>
-     <div style="margin-bottom: 32px;">
-      <h4 class="subsection-title">3. Tính khoa học</h4>
-      <ul class="bullet-list" style="color: #4a5568;">
-       <li>Cơ sở lý thuyết: SRL, Information Foraging/UX, micro-learning cho tra cứu nhanh.</li>
-       <li>Đảm bảo chất lượng theo ISO/IEC 25010; đánh giá usability bằng SUS/UMUX-Lite và chỉ số web LCP/TTFB/FID.</li>
-       <li>Quy trình lặp–kiểm thử–cải tiến; kiến trúc mobile-first tĩnh, tách dữ liệu công/riêng, phân quyền; tái lập qua versioning &amp; CSV/ICS; thu thập khảo sát người dùng.</li>
-      </ul>
-     </div>
-     <div>
-      <h4 class="subsection-title">4. Tính thực tiễn</h4>
-      <ul class="bullet-list" style="color: #4a5568;">
-       <li>Phù hợp bối cảnh THPT Nguyễn Khuyến: tra cứu theo lớp–môn–GV–phòng; chạy trên web, miễn phí, không cần cài đặt.</li>
-       <li>Xuất ảnh/in ấn, đồng bộ toàn trường, nhắc lịch kiểm tra/thi; hỗ trợ quản lý giảm trùng lịch, theo dõi vận hành.</li>
-       <li>Bảo đảm riêng tư; mô-đun dễ bảo trì–mở rộng; sẵn sàng tích hợp SSO/LDAP, Google Calendar/ICS; dễ nhân rộng.</li>
-      </ul>
-     </div>
-    </div><!-- Lý do chọn đề tài -->
-    <div class="card" style="padding: 40px; margin-bottom: 32px;">
-     <h3 style="font-size: 24px; font-weight: 700; color: #667eea; margin-bottom: 24px;">Lý do chọn đề tài</h3>
-     <div style="color: #4a5568; line-height: 1.8; font-size: 16px;">
-      <p style="margin-bottom: 16px;">Từ năm 2022–2023, GDPT 2018 triển khai toàn quốc, nhấn mạnh phát triển phẩm chất–năng lực và thúc đẩy chuyển đổi số. Ở THPT, ngoài 9 môn bắt buộc, học sinh có chuyên đề tự chọn; từ 2025–2026 mỗi ngày không quá 7 tiết, làm nhu cầu cá nhân hóa TKB và điều chỉnh linh hoạt trở nên cấp thiết.</p>
-      <p style="margin-bottom: 16px;">TKB giấy khó cập nhật, thiếu nhắc nhở, dễ trùng/nhầm lịch. Phần mềm <strong>Thời gian biểu mini</strong> khắc phục các hạn chế này: cho phép tự thiết kế và cập nhật tức thì, hỗ trợ nhắc nhở/xuất lịch, hướng tới chia sẻ lịch GV–HS, qua đó nâng cao hiệu quả quản lý và chất lượng học tập theo hướng linh hoạt, bền vững.</p>
-     </div>
-    </div><!-- Câu hỏi nghiên cứu -->
-    <div class="card" style="padding: 40px; margin-bottom: 32px;">
-     <h3 style="font-size: 24px; font-weight: 700; color: #667eea; margin-bottom: 24px;">Câu hỏi nghiên cứu</h3>
-     <div style="color: #4a5568; line-height: 1.8; font-size: 16px;">
-      <p style="margin-bottom: 16px;">Đề tài được thiết kế nhằm trả lời cho các câu hỏi nghiên cứu sau:</p>
-      <ul class="bullet-list" style="color: #4a5568;">
-       <li><strong>Câu hỏi nghiên cứu 1:</strong> Phần mềm thời gian biểu mini là gì?</li>
-       <li><strong>Câu hỏi nghiên cứu 2:</strong> Việc sử dụng Phần mềm này giải quyết được những vấn đề thực tiễn cụ thể nào? Lợi ích khi sử dụng phần mềm.</li>
-       <li><strong>Câu hỏi nghiên cứu 3:</strong> Việc sử dụng phần mềm có làm thay đổi thói quen sinh hoạt, học tập, làm việc của học sinh hay hình thành kĩ năng, phẩm chất nào cho học sinh hay không?</li>
-      </ul>
-     </div>
-    </div><!-- Mục tiêu -->
-    <div class="card" style="padding: 40px; margin-bottom: 32px;">
-     <h3 style="font-size: 24px; font-weight: 700; color: #667eea; margin-bottom: 24px;">Mục tiêu</h3>
-     <div style="margin-bottom: 32px;">
-      <h4 class="subsection-title">Quản lý thời gian cá nhân hóa</h4>
-      <p style="color: #4a5568; line-height: 1.8; font-size: 16px;">Hỗ trợ HS tối ưu quỹ thời gian ngoài 7 tiết/ngày cho tự học, rèn luyện, môn tự chọn; có to-do list để lập kế hoạch tác vụ.</p>
-     </div>
-     <div style="margin-bottom: 32px;">
-      <h4 class="subsection-title">Chủ động lập kế hoạch tuần</h4>
-      <p style="color: #4a5568; line-height: 1.8; font-size: 16px;">Chuyển từ bị động nhận thông báo sang coi TKB như công cụ học tập cá nhân (đúng việc–đúng lúc–đúng bối cảnh).</p>
-     </div>
-     <div>
-      <h4 class="subsection-title">Tối ưu tự học &amp; kỷ luật</h4>
-      <p style="color: #4a5568; line-height: 1.8; font-size: 16px;">Sắp xếp hợp lý các khoảng tự học để tránh chồng việc, giảm căng thẳng trước kiểm tra; nâng độ tin cậy/tiện dụng, tạo dữ liệu nền cho quản lý–phân bổ, rèn tự quản thời gian và thói quen chèn khoảng nghỉ hợp lý.</p>
-     </div>
-    </div><!-- Giả thuyết khoa học -->
-    <div class="card" style="padding: 40px;">
-     <h3 style="font-size: 24px; font-weight: 700; color: #667eea; margin-bottom: 24px;">Giả thuyết khoa học</h3>
-     <div style="margin-bottom: 32px;">
-      <h4 class="subsection-title">Thói quen và sự hài lòng</h4>
-      <p style="color: #4a5568; line-height: 1.8; font-size: 16px;">Khi có một nguồn lịch thống nhất, thao tác tra cứu nhanh và thông tin rõ ràng, học sinh hình thành thói quen xem lịch hằng ngày và cảm thấy hài lòng hơn.</p>
-     </div>
-     <div style="margin-bottom: 32px;">
-      <h4 class="subsection-title">Giảm nhầm lẫn thông tin</h4>
-      <p style="color: #4a5568; line-height: 1.8; font-size: 16px;">Việc dùng một kênh duy nhất giúp giảm nhầm lẫn giữa nhiều nguồn và hạn chế phải hỏi lại bạn bè.</p>
-     </div>
-     <div style="margin-bottom: 32px;">
-      <h4 class="subsection-title">Cá nhân hóa và hiệu quả</h4>
-      <p style="color: #4a5568; line-height: 1.8; font-size: 16px;">Lịch học và mục tiêu được cá nhân hóa giúp không bỏ sót việc cần làm và tạo mạch làm việc khả thi.</p>
-     </div>
-     <div style="margin-bottom: 32px;">
-      <h4 class="subsection-title">Sẵn sàng học tập</h4>
-      <p style="color: #4a5568; line-height: 1.8; font-size: 16px;">Bám theo kế hoạch phù hợp với nhịp sống cá nhân giúp học sinh vào lớp trong trạng thái sẵn sàng, chuẩn bị bài tốt và duy trì nhịp học ổn định.</p>
-     </div>
-     <div style="margin-bottom: 32px;">
-      <h4 class="subsection-title">Thông tin đúng lúc</h4>
-      <p style="color: #4a5568; line-height: 1.8; font-size: 16px;">Ứng dụng cho phép xem lịch trong nhiều bối cảnh với thông tin đến đúng lúc, giúp nhận biết kịp thời đổi phòng hoặc đổi môn.</p>
-     </div>
-     <div>
-      <h4 class="subsection-title">Giảm lỗi do thiếu thông tin</h4>
-      <p style="color: #4a5568; line-height: 1.8; font-size: 16px;">Nhờ truy cập nhanh gọn và cập nhật tức thời, các lỗi do thiếu thông tin như quên bài, đi trễ hoặc nhầm phòng được giảm đáng kể.</p>
+   </section><!-- Footer -->
+   <footer class="bg-white/60 backdrop-blur-sm border-t border-purple-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+     <div class="text-center">
+      <div class="flex items-center justify-center space-x-3 mb-4">
+       <div class="w-8 h-8 bg-gradient-to-br from-purple-200 to-pink-200 rounded-lg flex items-center justify-center"><span class="text-lg">📅</span>
+       </div><span class="text-lg font-semibold text-gray-800">Thời gian biểu mini</span>
+      </div>
+      <p class="text-gray-600 text-sm">© 2025 Trường THPT Nguyễn Khuyến. Phát triển bởi nhóm nghiên cứu học sinh.</p>
      </div>
     </div>
-   </div>
-  </div><!-- Page 3: Method -->
-  <div id="page-method" class="page">
-   <div style="max-width: 900px; margin: 0 auto; padding: 64px 24px;">
-    <h2 class="section-title">Phương pháp nghiên cứu</h2><!-- Tổng hợp và Phân loại lý thuyết -->
-    <div class="card" style="padding: 32px; margin-bottom: 32px;">
-     <h3 style="font-size: 20px; font-weight: 700; color: #667eea; margin-bottom: 24px; text-align: center;">Tổng hợp và Phân loại lý thuyết</h3><!-- Compact Flowchart -->
-     <div style="text-align: center; margin-bottom: 16px;">
-      <h4 style="font-size: 18px; font-weight: 600; color: #2d3748; margin: 0;">Tổng hợp lý thuyết</h4>
-     </div>
-     <div style="background: #f8fafc; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
-      <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px; font-size: 11px;">
-       <div style="background: #e6fffa; border: 1px solid #38b2ac; border-radius: 4px; padding: 6px 8px; text-align: center; min-width: 80px;">
-        <div style="font-size: 14px; margin-bottom: 2px;">
-         📚
-        </div>
-        <div style="font-weight: 600; color: #2d3748;">
-         Rà soát
-        </div>
-       </div>
-       <div style="color: #38b2ac; font-size: 12px;">
-        →
-       </div>
-       <div style="background: #fef5e7; border: 1px solid #ed8936; border-radius: 4px; padding: 6px 8px; text-align: center; min-width: 80px;">
-        <div style="font-size: 14px; margin-bottom: 2px;">
-         🔍
-        </div>
-        <div style="font-weight: 600; color: #2d3748;">
-         Trích xuất
-        </div>
-       </div>
-       <div style="color: #ed8936; font-size: 12px;">
-        →
-       </div>
-       <div style="background: #e6fffa; border: 1px solid #38b2ac; border-radius: 4px; padding: 6px 8px; text-align: center; min-width: 80px;">
-        <div style="font-size: 14px; margin-bottom: 2px;">
-         ⚖️
-        </div>
-        <div style="font-weight: 600; color: #2d3748;">
-         Phân tích
-        </div>
-       </div>
-       <div style="color: #38b2ac; font-size: 12px;">
-        →
-       </div>
-       <div style="background: #fef5e7; border: 1px solid #ed8936; border-radius: 4px; padding: 6px 8px; text-align: center; min-width: 80px;">
-        <div style="font-size: 14px; margin-bottom: 2px;">
-         ✅
-        </div>
-        <div style="font-weight: 600; color: #2d3748;">
-         Kiểm tra
-        </div>
-       </div>
-       <div style="color: #ed8936; font-size: 12px;">
-        →
-       </div>
-       <div style="background: #e6fffa; border: 1px solid #38b2ac; border-radius: 4px; padding: 6px 8px; text-align: center; min-width: 80px;">
-        <div style="font-size: 14px; margin-bottom: 2px;">
-         🎯
-        </div>
-        <div style="font-weight: 600; color: #2d3748;">
-         Sử dụng
-        </div>
-       </div>
-      </div>
-     </div><!-- Diagram Caption -->
-     <div style="text-align: center; margin-bottom: 20px;">
-      <p style="color: #4a5568; font-size: 13px; font-style: italic; margin: 0;"><strong>Sơ đồ.</strong> Các bước tổng hợp và phân tích dữ liệu lý thuyết cho nghiên cứu</p>
-     </div><!-- Phân loại lý thuyết title -->
-     <div style="text-align: center; margin-bottom: 16px;">
-      <h4 style="font-size: 18px; font-weight: 600; color: #2d3748; margin: 0;">Phân loại lý thuyết</h4>
-     </div><!-- Phân loại compact -->
-     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
-      <div style="background: #e6fffa; border-radius: 8px; padding: 16px; text-align: center;">
-       <div style="font-size: 20px; margin-bottom: 8px;">
-        📋
-       </div>
-       <h4 style="font-size: 14px; font-weight: 600; color: #2d3748; margin: 0;">Theo chủ đề</h4>
-      </div>
-      <div style="background: #fef5e7; border-radius: 8px; padding: 16px; text-align: center;">
-       <div style="font-size: 20px; margin-bottom: 8px;">
-        🔬
-       </div>
-       <h4 style="font-size: 14px; font-weight: 600; color: #2d3748; margin: 0;">Theo mức trừu tượng</h4>
-      </div>
-      <div style="background: #e6fffa; border-radius: 8px; padding: 16px; text-align: center;">
-       <div style="font-size: 20px; margin-bottom: 8px;">
-        🌍
-       </div>
-       <h4 style="font-size: 14px; font-weight: 600; color: #2d3748; margin: 0;">Theo bối cảnh</h4>
-      </div>
-      <div style="background: #fef5e7; border-radius: 8px; padding: 16px; text-align: center;">
-       <div style="font-size: 20px; margin-bottom: 8px;">
-        📝
-       </div>
-       <h4 style="font-size: 14px; font-weight: 600; color: #2d3748; margin: 0;">Chuẩn hóa thuật ngữ</h4>
-      </div>
-     </div>
-    </div><!-- Công cụ và phần mềm hỗ trợ -->
-    <div class="card" style="padding: 40px; margin-bottom: 32px;">
-     <h3 style="font-size: 24px; font-weight: 700; color: #667eea; margin-bottom: 32px; text-align: center;">Công cụ và phần mềm hỗ trợ</h3><!-- Tools Grid -->
-     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; max-width: 800px; margin: 0 auto;"><!-- HTML -->
-      <div class="tool-card" style="background: linear-gradient(135deg, #ffeaa7, #fab1a0); color: #2d3748; padding: 16px; border-radius: 10px; text-align: center; box-shadow: 0 3px 8px rgba(255, 234, 167, 0.3); transition: transform 0.2s; cursor: pointer;">
-       <div style="font-size: 24px; margin-bottom: 8px;">
-        🌐
-       </div>
-       <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 4px;">HTML</h4>
-       <p style="font-size: 11px; opacity: 0.8; margin: 0;">Markup Language</p>
-      </div><!-- CSS -->
-      <div class="tool-card" style="background: linear-gradient(135deg, #a8e6cf, #88d8c0); color: #2d3748; padding: 16px; border-radius: 10px; text-align: center; box-shadow: 0 3px 8px rgba(168, 230, 207, 0.3); transition: transform 0.2s; cursor: pointer;">
-       <div style="font-size: 24px; margin-bottom: 8px;">
-        🎨
-       </div>
-       <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 4px;">CSS</h4>
-       <p style="font-size: 11px; opacity: 0.8; margin: 0;">Style Sheets</p>
-      </div><!-- Google Gemini -->
-      <div class="tool-card" style="background: linear-gradient(135deg, #c7ceea, #b19cd9); color: #2d3748; padding: 16px; border-radius: 10px; text-align: center; box-shadow: 0 3px 8px rgba(199, 206, 234, 0.3); transition: transform 0.2s; cursor: pointer;">
-       <div style="font-size: 24px; margin-bottom: 8px;">
-        🤖
-       </div>
-       <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 4px;">Gemini</h4>
-       <p style="font-size: 11px; opacity: 0.8; margin: 0;">AI Assistant</p>
-      </div><!-- Anthropic Claude -->
-      <div class="tool-card" style="background: linear-gradient(135deg, #ffc3a0, #ffb3ba); color: #2d3748; padding: 16px; border-radius: 10px; text-align: center; box-shadow: 0 3px 8px rgba(255, 195, 160, 0.3); transition: transform 0.2s; cursor: pointer;">
-       <div style="font-size: 24px; margin-bottom: 8px;">
-        🧠
-       </div>
-       <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 4px;">Claude</h4>
-       <p style="font-size: 11px; opacity: 0.8; margin: 0;">AI Assistant</p>
-      </div><!-- OpenAI ChatGPT -->
-      <div class="tool-card" style="background: linear-gradient(135deg, #ffe5b4, #ffcc5c); color: #2d3748; padding: 16px; border-radius: 10px; text-align: center; box-shadow: 0 3px 8px rgba(255, 229, 180, 0.3); transition: transform 0.2s; cursor: pointer;">
-       <div style="font-size: 24px; margin-bottom: 8px;">
-        💬
-       </div>
-       <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 4px;">ChatGPT</h4>
-       <p style="font-size: 11px; opacity: 0.8; margin: 0;">AI Assistant</p>
-      </div><!-- Canva -->
-      <div class="tool-card" style="background: linear-gradient(135deg, #d4a4eb, #c39bd3); color: #2d3748; padding: 16px; border-radius: 10px; text-align: center; box-shadow: 0 3px 8px rgba(212, 164, 235, 0.3); transition: transform 0.2s; cursor: pointer;">
-       <div style="font-size: 24px; margin-bottom: 8px;">
-        ✨
-       </div>
-       <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 4px;">Canva</h4>
-       <p style="font-size: 11px; opacity: 0.8; margin: 0;">Design Tool</p>
-      </div><!-- GitHub -->
-      <div class="tool-card" style="background: linear-gradient(135deg, #b8b8b8, #a8a8a8); color: #2d3748; padding: 16px; border-radius: 10px; text-align: center; box-shadow: 0 3px 8px rgba(184, 184, 184, 0.3); transition: transform 0.2s; cursor: pointer;">
-       <div style="font-size: 24px; margin-bottom: 8px;">
-        📂
-       </div>
-       <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 4px;">GitHub</h4>
-       <p style="font-size: 11px; opacity: 0.8; margin: 0;">Code Repository</p>
-      </div>
-     </div>
-    </div><!-- Cơ sở lý thuyết -->
-    <div class="card" style="padding: 40px; margin-bottom: 32px;">
-     <h3 style="font-size: 24px; font-weight: 700; color: #667eea; margin-bottom: 32px; text-align: center;">Cơ sở lý thuyết</h3><!-- Theory 1: SRL -->
-     <div style="margin-bottom: 32px;">
-      <div style="display: flex; align-items: center; margin-bottom: 16px;">
-       <div style="background: #e6fffa; color: #38b2ac; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-right: 16px; flex-shrink: 0;">
-        📚
-       </div>
-       <h4 style="font-size: 20px; font-weight: 600; color: #2d3748; margin: 0;">1. Quản lý thời gian trong học tập và SRL</h4>
-      </div>
-      <p style="color: #4a5568; line-height: 1.8; font-size: 16px; margin-left: 56px;">Lý thuyết Học tập tự điều chỉnh (Self-Regulated Learning – SRL) mô tả chu trình đặt mục tiêu <strong>(1)</strong> lập kế hoạch <strong>(2)</strong> thực thi <strong>(3)</strong> tự giám sát <strong>(4)</strong> điều chỉnh/ phản tư <strong>(5)</strong></p>
-     </div><!-- Theory 2: Information Foraging -->
-     <div style="margin-bottom: 32px;">
-      <div style="display: flex; align-items: center; margin-bottom: 16px;">
-       <div style="background: #fef5e7; color: #ed8936; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-right: 16px; flex-shrink: 0;">
-        🔍
-       </div>
-       <h4 style="font-size: 20px; font-weight: 600; color: #2d3748; margin: 0;">2. Information Foraging trong tra cứu</h4>
-      </div>
-      <p style="color: #4a5568; line-height: 1.8; font-size: 16px; margin-left: 56px;">Đối với tra cứu Thời khóa biểu, áp dụng với việc: <strong>(a)</strong> tìm–lọc một ô (spotlight) kèm gợi ý tức thời, <strong>(b)</strong> nhãn nhất quán theo lớp–môn–giáo viên–phòng, <strong>(c)</strong> ngữ cảnh xem theo ngày/tuần và lối tắt đến tiết–phòng–giáo viên đích và <strong>(d)</strong> giảm nhiễu bằng cách ẩn tuỳ chọn nâng cao cho đến khi cần.</p>
-     </div><!-- Theory 3: Usability/UX và SUS -->
-     <div style="margin-bottom: 32px;">
-      <div style="display: flex; align-items: center; margin-bottom: 16px;">
-       <div style="background: #e6fffa; color: #38b2ac; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-right: 16px; flex-shrink: 0;">
-        📊
-       </div>
-       <h4 style="font-size: 20px; font-weight: 600; color: #2d3748; margin: 0;">3. Usability/UX và thang SUS</h4>
-      </div>
-      <p style="color: #4a5568; line-height: 1.8; font-size: 16px; margin-left: 56px;">Usability phản ánh mức độ hệ thống cho phép người dùng đạt mục tiêu hiệu quả, hiệu suất, thỏa mãn trong ngữ cảnh cụ thể. Là thang 10 mục, chấm 0–100, được xem là tiêu chuẩn "nhanh và đáng tin cậy" để lượng hóa khả dụng mức hệ thống.</p>
-     </div><!-- Theory 4: ISO/IEC 25010 -->
-     <div style="margin-bottom: 0;">
-      <div style="display: flex; align-items: center; margin-bottom: 16px;">
-       <div style="background: #fef5e7; color: #ed8936; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-right: 16px; flex-shrink: 0;">
-        ⚖️
-       </div>
-       <h4 style="font-size: 20px; font-weight: 600; color: #2d3748; margin: 0;">4. Mô hình chất lượng phần mềm ISO/IEC 25010</h4>
-      </div>
-      <p style="color: #4a5568; line-height: 1.8; font-size: 16px; margin-left: 56px;">Chuẩn ISO/IEC 25010 quy định các đặc tính chất lượng phần mềm gồm tính chức năng, hiệu năng–hiệu quả, độ tin cậy, khả dụng, an ninh, khả bảo trì và khả chuyển.</p>
-     </div>
-    </div><!-- Quy trình thực hiện phần mềm -->
-    <div class="card" style="padding: 40px; margin-top: 32px;">
-     <h3 style="font-size: 24px; font-weight: 700; color: #667eea; margin-bottom: 32px; text-align: center;">Quy trình thực hiện phần mềm</h3><!-- Process Steps Grid -->
-     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto;"><!-- Bước 1 -->
-      <div style="background: linear-gradient(135deg, #e6fffa, #f0fff4); border-radius: 12px; padding: 20px; border-left: 4px solid #38b2ac;">
-       <div style="display: flex; align-items: center; margin-bottom: 12px;">
-        <div style="background: #38b2ac; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; margin-right: 12px;">
-         1
-        </div>
-        <h4 style="font-size: 16px; font-weight: 600; color: #2d3748; margin: 0;">Mục tiêu &amp; phạm vi</h4>
-       </div>
-       <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.5;">Xác định rõ mục tiêu và phạm vi của phần mềm</p>
-      </div><!-- Bước 2 -->
-      <div style="background: linear-gradient(135deg, #fef5e7, #fff5f0); border-radius: 12px; padding: 20px; border-left: 4px solid #ed8936;">
-       <div style="display: flex; align-items: center; margin-bottom: 12px;">
-        <div style="background: #ed8936; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; margin-right: 12px;">
-         2
-        </div>
-        <h4 style="font-size: 16px; font-weight: 600; color: #2d3748; margin: 0;">Mô hình dữ liệu</h4>
-       </div>
-       <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.5;">Thiết kế cấu trúc dữ liệu và mối quan hệ</p>
-      </div><!-- Bước 3 -->
-      <div style="background: linear-gradient(135deg, #e6fffa, #f0fff4); border-radius: 12px; padding: 20px; border-left: 4px solid #38b2ac;">
-       <div style="display: flex; align-items: center; margin-bottom: 12px;">
-        <div style="background: #38b2ac; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; margin-right: 12px;">
-         3
-        </div>
-        <h4 style="font-size: 16px; font-weight: 600; color: #2d3748; margin: 0;">Ràng buộc &amp; phát hiện xung đột</h4>
-       </div>
-       <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.5;">Xử lý các ràng buộc và xung đột dữ liệu</p>
-      </div><!-- Bước 4 -->
-      <div style="background: linear-gradient(135deg, #fef5e7, #fff5f0); border-radius: 12px; padding: 20px; border-left: 4px solid #ed8936;">
-       <div style="display: flex; align-items: center; margin-bottom: 12px;">
-        <div style="background: #ed8936; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; margin-right: 12px;">
-         4
-        </div>
-        <h4 style="font-size: 16px; font-weight: 600; color: #2d3748; margin: 0;">Kiến trúc &amp; công nghệ</h4>
-       </div>
-       <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.5;">Lựa chọn kiến trúc hệ thống và công nghệ</p>
-      </div><!-- Bước 5 -->
-      <div style="background: linear-gradient(135deg, #e6fffa, #f0fff4); border-radius: 12px; padding: 20px; border-left: 4px solid #38b2ac;">
-       <div style="display: flex; align-items: center; margin-bottom: 12px;">
-        <div style="background: #38b2ac; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; margin-right: 12px;">
-         5
-        </div>
-        <h4 style="font-size: 16px; font-weight: 600; color: #2d3748; margin: 0;">Pipeline dữ liệu</h4>
-       </div>
-       <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.5;">Xây dựng quy trình xử lý dữ liệu</p>
-      </div><!-- Bước 6 -->
-      <div style="background: linear-gradient(135deg, #fef5e7, #fff5f0); border-radius: 12px; padding: 20px; border-left: 4px solid #ed8936;">
-       <div style="display: flex; align-items: center; margin-bottom: 12px;">
-        <div style="background: #ed8936; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; margin-right: 12px;">
-         6
-        </div>
-        <h4 style="font-size: 16px; font-weight: 600; color: #2d3748; margin: 0;">Module TKB chính</h4>
-       </div>
-       <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.5;">Phát triển module thời khóa biểu chính</p>
-      </div><!-- Bước 7 -->
-      <div style="background: linear-gradient(135deg, #e6fffa, #f0fff4); border-radius: 12px; padding: 20px; border-left: 4px solid #38b2ac;">
-       <div style="display: flex; align-items: center; margin-bottom: 12px;">
-        <div style="background: #38b2ac; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; margin-right: 12px;">
-         7
-        </div>
-        <h4 style="font-size: 16px; font-weight: 600; color: #2d3748; margin: 0;">Module TKB tự chọn</h4>
-       </div>
-       <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.5;">Phát triển module thời khóa biểu tự chọn</p>
-      </div><!-- Bước 8 -->
-      <div style="background: linear-gradient(135deg, #fef5e7, #fff5f0); border-radius: 12px; padding: 20px; border-left: 4px solid #ed8936;">
-       <div style="display: flex; align-items: center; margin-bottom: 12px;">
-        <div style="background: #ed8936; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; margin-right: 12px;">
-         8
-        </div>
-        <h4 style="font-size: 16px; font-weight: 600; color: #2d3748; margin: 0;">Module Lịch kiểm tra</h4>
-       </div>
-       <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.5;">Phát triển module quản lý lịch kiểm tra</p>
-      </div><!-- Bước 9 -->
-      <div style="background: linear-gradient(135deg, #e6fffa, #f0fff4); border-radius: 12px; padding: 20px; border-left: 4px solid #38b2ac;">
-       <div style="display: flex; align-items: center; margin-bottom: 12px;">
-        <div style="background: #38b2ac; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; margin-right: 12px;">
-         9
-        </div>
-        <h4 style="font-size: 16px; font-weight: 600; color: #2d3748; margin: 0;">Module To-do lists</h4>
-       </div>
-       <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.5;">Phát triển module quản lý danh sách công việc</p>
-      </div><!-- Bước 10 -->
-      <div style="background: linear-gradient(135deg, #fef5e7, #fff5f0); border-radius: 12px; padding: 20px; border-left: 4px solid #ed8936;">
-       <div style="display: flex; align-items: center; margin-bottom: 12px;">
-        <div style="background: #ed8936; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; margin-right: 12px;">
-         10
-        </div>
-        <h4 style="font-size: 16px; font-weight: 600; color: #2d3748; margin: 0;">Giao diện &amp; trải nghiệm</h4>
-       </div>
-       <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.5;">Thiết kế giao diện người dùng và UX</p>
-      </div><!-- Bước 11 -->
-      <div style="background: linear-gradient(135deg, #e6fffa, #f0fff4); border-radius: 12px; padding: 20px; border-left: 4px solid #38b2ac;">
-       <div style="display: flex; align-items: center; margin-bottom: 12px;">
-        <div style="background: #38b2ac; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; margin-right: 12px;">
-         11
-        </div>
-        <h4 style="font-size: 16px; font-weight: 600; color: #2d3748; margin: 0;">Hiệu năng &amp; khả dụng</h4>
-       </div>
-       <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.5;">Tối ưu hiệu năng và kiểm tra khả dụng</p>
-      </div><!-- Bước 12 -->
-      <div style="background: linear-gradient(135deg, #fef5e7, #fff5f0); border-radius: 12px; padding: 20px; border-left: 4px solid #ed8936;">
-       <div style="display: flex; align-items: center; margin-bottom: 12px;">
-        <div style="background: #ed8936; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; margin-right: 12px;">
-         12
-        </div>
-        <h4 style="font-size: 16px; font-weight: 600; color: #2d3748; margin: 0;">Triển khai &amp; vận hành</h4>
-       </div>
-       <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.5;">Triển khai hệ thống và vận hành</p>
-      </div>
-     </div>
-    </div>
-   </div>
-  </div><!-- Page 4: Data -->
-  <div id="page-data" class="page">
-   <div style="max-width: 900px; margin: 0 auto; padding: 64px 24px;">
-    <h2 class="section-title">Số liệu</h2><!-- Placeholder content -->
-    <div class="card" style="padding: 40px; text-align: center;">
-     <div style="font-size: 64px; margin-bottom: 24px; opacity: 0.3;">
-      📊
-     </div>
-     <h3 style="font-size: 24px; font-weight: 600; color: #4a5568; margin-bottom: 16px;">Nội dung đang được cập nhật</h3>
-     <p style="color: #718096; font-size: 16px; line-height: 1.6;">Trang số liệu sẽ hiển thị các thống kê, biểu đồ và dữ liệu phân tích về việc sử dụng phần mềm Thời gian biểu mini.</p>
-    </div>
-   </div>
-  </div><!-- Page 5: Images -->
-  <div id="page-images" class="page">
-   <div style="max-width: 900px; margin: 0 auto; padding: 64px 24px;">
-    <h2 class="section-title">Hình ảnh</h2><!-- User Experience Gallery -->
-    <div class="card" style="padding: 40px;">
-     <div style="text-align: center; margin-bottom: 32px;">
-      <div style="font-size: 48px; margin-bottom: 16px;">
-       📸
-      </div>
-      <h3 style="font-size: 24px; font-weight: 700; color: #667eea; margin-bottom: 16px;">Trải nghiệm của người dùng</h3>
-      <p style="color: #718096; font-size: 16px; line-height: 1.6;">Những hình ảnh chụp màn hình từ người dùng thực tế khi sử dụng phần mềm Thời gian biểu mini</p>
-     </div><!-- Image Placeholders Grid -->
-     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 32px;"><!-- Image Placeholder 1 -->
-      <div style="background: #f7fafc; border: 2px dashed #cbd5e0; border-radius: 12px; padding: 40px; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-       <div style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;">
-        👩‍🎓
-       </div>
-       <p style="color: #a0aec0; font-size: 14px; font-weight: 500; margin: 0;">Ảnh học sinh sử dụng phần mềm</p>
-       <p style="color: #cbd5e0; font-size: 12px; margin-top: 8px;">Sẽ được cập nhật sớm</p>
-      </div><!-- Image Placeholder 2 -->
-      <div style="background: #f7fafc; border: 2px dashed #cbd5e0; border-radius: 12px; padding: 40px; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-       <div style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;">
-        👨‍🎓
-       </div>
-       <p style="color: #a0aec0; font-size: 14px; font-weight: 500; margin: 0;">Ảnh học sinh sử dụng phần mềm</p>
-       <p style="color: #cbd5e0; font-size: 12px; margin-top: 8px;">Sẽ được cập nhật sớm</p>
-      </div><!-- Image Placeholder 3 -->
-      <div style="background: #f7fafc; border: 2px dashed #cbd5e0; border-radius: 12px; padding: 40px; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-       <div style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;">
-        👩‍🎓
-       </div>
-       <p style="color: #a0aec0; font-size: 14px; font-weight: 500; margin: 0;">Ảnh học sinh sử dụng phần mềm</p>
-       <p style="color: #cbd5e0; font-size: 12px; margin-top: 8px;">Sẽ được cập nhật sớm</p>
-      </div><!-- Image Placeholder 4 -->
-      <div style="background: #f7fafc; border: 2px dashed #cbd5e0; border-radius: 12px; padding: 40px; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-       <div style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;">
-        👨‍🎓
-       </div>
-       <p style="color: #a0aec0; font-size: 14px; font-weight: 500; margin: 0;">Ảnh học sinh sử dụng phần mềm</p>
-       <p style="color: #cbd5e0; font-size: 12px; margin-top: 8px;">Sẽ được cập nhật sớm</p>
-      </div><!-- Image Placeholder 5 -->
-      <div style="background: #f7fafc; border: 2px dashed #cbd5e0; border-radius: 12px; padding: 40px; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-       <div style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;">
-        👩‍🎓
-       </div>
-       <p style="color: #a0aec0; font-size: 14px; font-weight: 500; margin: 0;">Ảnh học sinh sử dụng phần mềm</p>
-       <p style="color: #cbd5e0; font-size: 12px; margin-top: 8px;">Sẽ được cập nhật sớm</p>
-      </div><!-- Image Placeholder 6 -->
-      <div style="background: #f7fafc; border: 2px dashed #cbd5e0; border-radius: 12px; padding: 40px; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-       <div style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;">
-        👨‍🎓
-       </div>
-       <p style="color: #a0aec0; font-size: 14px; font-weight: 500; margin: 0;">Ảnh học sinh sử dụng phần mềm</p>
-       <p style="color: #cbd5e0; font-size: 12px; margin-top: 8px;">Sẽ được cập nhật sớm</p>
-      </div>
-     </div><!-- Call to Action for Users -->
-     <div style="background: linear-gradient(135deg, #e6fffa 0%, #f0fff4 100%); border-radius: 12px; padding: 24px; text-align: center;">
-      <div style="font-size: 32px; margin-bottom: 12px;">
-       📤
-      </div>
-      <h4 style="color: #2d3748; font-size: 18px; font-weight: 600; margin-bottom: 8px;">Bạn đã sử dụng phần mềm?</h4>
-      <p style="color: #4a5568; font-size: 14px; margin-bottom: 16px;">Hãy chụp màn hình và gửi cho chúng tôi qua form phản hồi!</p>
-      <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;"><span style="background: white; color: #38a169; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 500;">📱 Ảnh trên điện thoại</span> <span style="background: white; color: #3182ce; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 500;">💻 Ảnh trên máy tính</span> <span style="background: white; color: #805ad5; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 500;">🎨 Ảnh tùy chỉnh</span>
-      </div>
-     </div>
-    </div>
-   </div>
-  </div><!-- Page 6: Feedback -->
-  <div id="page-feedback" class="page">
-   <div style="max-width: 900px; margin: 0 auto; padding: 64px 24px;">
-    <h2 class="section-title">Feedback</h2><!-- Feedback Form -->
-    <div class="card" style="padding: 40px; margin-bottom: 32px;">
-     <div style="text-align: center; margin-bottom: 32px;">
-      <div style="font-size: 48px; margin-bottom: 16px;">
-       💬
-      </div>
-      <h3 style="font-size: 24px; font-weight: 700; color: #667eea; margin-bottom: 16px;">Chia sẻ ý kiến của bạn</h3>
-      <p style="color: #718096; font-size: 16px; line-height: 1.6;">Chúng tôi rất mong nhận được phản hồi từ bạn để cải thiện phần mềm Thời gian biểu mini</p>
-     </div>
-     <form id="feedback-form" style="max-width: 600px; margin: 0 auto;"><!-- Name Field -->
-      <div style="margin-bottom: 24px;"><label for="feedback-name" style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 8px; font-size: 14px;">Họ và tên</label> <input type="text" id="feedback-name" name="name" placeholder="Nhập họ và tên của bạn" style="width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 16px; transition: border-color 0.2s; box-sizing: border-box;">
-      </div><!-- Email Field -->
-      <div style="margin-bottom: 24px;"><label for="feedback-email" style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 8px; font-size: 14px;">Email (tùy chọn)</label> <input type="email" id="feedback-email" name="email" placeholder="email@example.com" style="width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 16px; transition: border-color 0.2s; box-sizing: border-box;">
-      </div><!-- Category Field -->
-      <div style="margin-bottom: 24px;"><label for="feedback-category" style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 8px; font-size: 14px;">Loại phản hồi</label> <select id="feedback-category" name="category" style="width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 16px; background: white; box-sizing: border-box;"> <option value="">Chọn loại phản hồi</option> <option value="bug">Báo lỗi</option> <option value="feature">Đề xuất tính năng</option> <option value="improvement">Cải thiện</option> <option value="general">Ý kiến chung</option> <option value="other">Khác</option> </select>
-      </div><!-- Message Field -->
-      <div style="margin-bottom: 32px;"><label for="feedback-message" style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 8px; font-size: 14px;">Nội dung phản hồi</label> <textarea id="feedback-message" name="message" rows="6" placeholder="Chia sẻ chi tiết ý kiến, đề xuất hoặc báo cáo lỗi của bạn..." style="width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 16px; resize: vertical; font-family: inherit; line-height: 1.5; box-sizing: border-box;"></textarea>
-      </div><!-- Submit Button -->
-      <div style="text-align: center;"><button type="submit" id="submit-feedback" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 16px 32px; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);"> Gửi phản hồi </button>
-      </div>
-     </form><!-- Success Message -->
-     <div id="success-message" style="display: none; text-align: center; margin-top: 32px; padding: 24px; background: #f0fff4; border: 2px solid #68d391; border-radius: 12px;">
-      <div style="font-size: 48px; margin-bottom: 16px;">
-       ✅
-      </div>
-      <h3 style="color: #2f855a; font-size: 20px; font-weight: 600; margin-bottom: 8px;">Cảm ơn bạn!</h3>
-      <p style="color: #38a169; font-size: 16px; margin: 0;">Phản hồi của bạn đã được gửi thành công. Chúng tôi sẽ xem xét và cải thiện phần mềm dựa trên ý kiến của bạn.</p>
-     </div>
-    </div><!-- Contact Info -->
-    <div class="card" style="padding: 32px;">
-     <h3 style="font-size: 20px; font-weight: 700; color: #667eea; margin-bottom: 20px; text-align: center;">Thông tin liên hệ</h3>
-     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-      <div style="text-align: center; padding: 20px; background: #f7fafc; border-radius: 12px;">
-       <div style="font-size: 32px; margin-bottom: 12px;">
-        🏫
-       </div>
-       <h4 style="font-size: 16px; font-weight: 600; color: #2d3748; margin-bottom: 8px;">Trường học</h4>
-       <p style="color: #718096; font-size: 14px; margin: 0;">THPT Nguyễn Khuyến</p>
-      </div>
-      <div style="text-align: center; padding: 20px; background: #f7fafc; border-radius: 12px;">
-       <div style="font-size: 32px; margin-bottom: 12px;">
-        📧
-       </div>
-       <h4 style="font-size: 16px; font-weight: 600; color: #2d3748; margin-bottom: 8px;">Email hỗ trợ</h4>
-       <p style="color: #718096; font-size: 14px; margin: 0;">Liên hệ qua giáo viên hướng dẫn</p>
-      </div>
-     </div>
-    </div>
-   </div>
+   </footer>
   </div>
   <script>
-    const defaultConfig = {
-      main_title: "Thời gian biểu mini",
-      subtitle: "Giải pháp quản lý thời khóa biểu thông minh dành cho học sinh",
-      school_name: "THPT Nguyễn Khuyến",
-      teacher_name: "Nguyễn Thành Luân",
-      student_1: "Trịnh Thị Ngọc Linh",
-      student_2: "Nguyễn Thị Thảo Yến"
-    };
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
 
-    async function onConfigChange(config) {
-      const mainTitle = config.main_title || defaultConfig.main_title;
-      const subtitle = config.subtitle || defaultConfig.subtitle;
-      const schoolName = config.school_name || defaultConfig.school_name;
-      const teacherName = config.teacher_name || defaultConfig.teacher_name;
-      const student1 = config.student_1 || defaultConfig.student_1;
-      const student2 = config.student_2 || defaultConfig.student_2;
+        // Add click functionality to buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', function() {
+                const buttonText = this.textContent.trim();
+                if (buttonText.includes('Bắt đầu sử dụng')) {
+                    // Scroll to features section
+                    document.getElementById('features').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
 
-      document.getElementById('home-title').textContent = mainTitle;
-      document.getElementById('home-subtitle').textContent = subtitle;
-      document.getElementById('about-school').textContent = schoolName;
-      document.getElementById('about-teacher').textContent = teacherName;
-      document.getElementById('about-student1').textContent = student1;
-      document.getElementById('about-student2').textContent = student2;
-    }
-
-    function showPage(pageId) {
-      const pages = document.querySelectorAll('.page');
-      pages.forEach(page => {
-        page.classList.remove('active');
-      });
-      
-      const targetPage = document.getElementById(pageId);
-      if (targetPage) {
-        targetPage.classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
-
-    document.getElementById('btn-home').addEventListener('click', () => showPage('page-home'));
-    document.getElementById('btn-intro').addEventListener('click', () => showPage('page-intro'));
-    document.getElementById('btn-method').addEventListener('click', () => showPage('page-method'));
-    document.getElementById('btn-data').addEventListener('click', () => showPage('page-data'));
-    document.getElementById('btn-images').addEventListener('click', () => showPage('page-images'));
-    document.getElementById('btn-feedback').addEventListener('click', () => showPage('page-feedback'));
-
-    // Form submission
-    document.getElementById('feedback-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      const form = e.target;
-      const submitButton = document.getElementById('submit-feedback');
-      const successMessage = document.getElementById('success-message');
-      
-      // Show loading state
-      submitButton.textContent = 'Đang gửi...';
-      submitButton.disabled = true;
-      
-      // Simulate form submission
-      setTimeout(() => {
-        // Hide form and show success message
-        form.style.display = 'none';
-        successMessage.style.display = 'block';
-        
-        // Reset form after showing success
-        setTimeout(() => {
-          form.reset();
-          
-          form.style.display = 'block';
-          successMessage.style.display = 'none';
-          submitButton.textContent = 'Gửi phản hồi';
-          submitButton.disabled = false;
-        }, 3000);
-      }, 1500);
-    });
-
-    // Input focus effects
-    const inputs = document.querySelectorAll('input, textarea, select');
-    inputs.forEach(input => {
-      input.addEventListener('focus', () => {
-        input.style.borderColor = '#667eea';
-        input.style.boxShadow = '0 0 0 3px rgba(102, 126, 234, 0.1)';
-      });
-      
-      input.addEventListener('blur', () => {
-        input.style.borderColor = '#e2e8f0';
-        input.style.boxShadow = 'none';
-      });
-    });
-
-    // Submit button hover effect
-    const submitBtn = document.getElementById('submit-feedback');
-    submitBtn.addEventListener('mouseenter', () => {
-      submitBtn.style.transform = 'translateY(-2px)';
-      submitBtn.style.boxShadow = '0 8px 20px rgba(102, 126, 234, 0.4)';
-    });
-    
-    submitBtn.addEventListener('mouseleave', () => {
-      submitBtn.style.transform = 'translateY(0)';
-      submitBtn.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.3)';
-    });
-
-    if (window.elementSdk) {
-      window.elementSdk.init({
-        defaultConfig,
-        onConfigChange,
-        mapToCapabilities: (config) => ({
-          recolorables: [],
-          borderables: [],
-          fontEditable: undefined,
-          fontSizeable: undefined
-        }),
-        mapToEditPanelValues: (config) => new Map([
-          ["main_title", config.main_title || defaultConfig.main_title],
-          ["subtitle", config.subtitle || defaultConfig.subtitle],
-          ["school_name", config.school_name || defaultConfig.school_name],
-          ["teacher_name", config.teacher_name || defaultConfig.teacher_name],
-          ["student_1", config.student_1 || defaultConfig.student_1],
-          ["student_2", config.student_2 || defaultConfig.student_2]
-        ])
-      });
-    }
-  </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'997a7ad0b25cc7d2',t:'MTc2MTk5MDU0MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+        // Add click functionality to feature cards
+        document.querySelectorAll('.feature-card[data-link]').forEach(card => {
+            card.addEventListener('click', function() {
+                const link = this.getAttribute('data-link');
+                if (link) {
+                    window.open(link, '_blank');
+                }
+            });
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'997a82c6134bc7d2',t:'MTc2MTk5MDg2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
